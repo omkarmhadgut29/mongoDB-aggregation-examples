@@ -112,3 +112,95 @@
 >     -   sorting data in ascending (1) or in descending order.
 > -   $limit:
 >     -   limit the documents passing from above pipeline.
+
+### Q4. Find total numbers of males and females.
+
+```
+[
+  {
+    $group: {
+      _id: "$gender",
+      count: {
+        $sum: 1,
+      }
+    }
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "_id": "female",
+    "count": 507
+  },
+  {
+    "_id": "male",
+    "count": 493
+  }
+]
+```
+
+### Q5. Which contry has highest number of registered users?
+
+```
+[
+  {
+    $group: {
+      _id: "$company.location.country",
+      count: {
+        $sum: 1,
+      }
+    }
+  },
+  {
+    $sort: {
+      count: -1
+    }
+  },
+  {
+    $limit: 1
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "_id": "Germany",
+    "count": 261
+  }
+]
+```
+
+### Q6. List all unique eye colors present in the collection.
+
+```
+[
+  {
+    $group: {
+      _id: "$eyeColor",
+    }
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    _id: "blue",
+  },
+  {
+    "_id": "green"
+  },
+  {
+    "_id": "brown"
+  }
+]
+```
