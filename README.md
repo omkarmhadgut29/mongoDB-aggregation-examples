@@ -63,7 +63,7 @@
 >
 > -   $group:
 >     -   This is used for creating groups of somthing
->     -   $avg : (accumulator)
+> -   $avg : (accumulator)
 >     -   This is used for getting average.
 
 ### Q3. List top 2 most common favorite fruits among users.
@@ -106,7 +106,9 @@
 
 > [!NOTE]
 >
-> -   $group:
->     -   This is used for creating groups of somthing
->     -   $avg : (accumulator)
->     -   This is used for getting average.
+> -   $sum:
+>     -   It accepts number by which it will be adding if there is new entry found.
+> -   $sort:
+>     -   sorting data in ascending (1) or in descending order.
+> -   $limit:
+>     -   limit the documents passing from above pipeline.
