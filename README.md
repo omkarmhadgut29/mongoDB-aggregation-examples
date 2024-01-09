@@ -204,3 +204,46 @@
   }
 ]
 ```
+
+## [ $unwind ]
+
+### Q7. What is average numbers of tags per user?
+
+**_Methode 1_**
+
+```
+[
+  {
+    $unwind: {
+      path: "$tags",
+    }
+  },
+  {
+    $group: {
+      _id: "$_id",
+      numOfTags: {
+        $sum: 1,
+      }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      average: {
+        $avg: "$numOfTags"
+      }
+    }
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "_id": null,
+    "average": 3.556
+  }
+]
+```
