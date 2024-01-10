@@ -247,3 +247,210 @@
   }
 ]
 ```
+
+> [!NOTE]
+>
+> -   $unwind:
+>     -   It sprades
+
+## [ $ifNull, $size ]
+
+**_Methode 2_**
+
+```
+[
+  {
+    $addFields: {
+      numberOfTags: {
+        $size: {
+          $ifNull : ["$tags", []]
+        }
+      }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      averageOfNumOfTags: {
+        $avg: "$numberOfTags"
+      }
+    }
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "_id": null,
+    "averageOfNumOfTags": 3.556
+  }
+]
+```
+
+### How many users have phone number starting with '+1 (940)'?
+
+```
+[
+  {
+    $match: {
+      "company.phone": /^\+1 \(940\)/
+    }
+  },
+  {
+    $count: 'userWithSpecialNumber'
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "userWithSpecialNumber": 5
+  }
+]
+```
+
+## [ $push ]
+
+### Categorize users by their favorite fruit.
+
+```
+[
+  {
+    $group: {
+      _id: "$favoriteFruit",
+      numberOfUsers: {
+        $sum: 1
+      },
+      users: { $push: "$name" }
+    }
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+
+    _id: "banana"
+    numberOfUsers: 339
+  > users: Array (339)
+  },
+  {
+
+    _id: "apple"
+    numberOfUsers: 338
+  > users: Array (338)
+  },
+  {
+
+    _id: "strawberry"
+    numberOfUsers: 323
+  > users: Array (323)
+  }
+]
+```
+
+## [ Array.index ]
+
+### How many users have 'ad' tag as second tag in their list of tags.
+
+```
+[
+  {
+    $match: {
+      "tags.1": "ad"
+    }
+  },
+  {
+    $count: 'secondTagAd'
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "secondTagAd": 12
+  }
+]
+```
+
+## [ $all ]
+
+### Find users who have both 'enim' and 'id' as their tags.
+
+```
+[
+  {
+    $match: {
+      tags: {
+        $all: ["enim", "id"]
+      }
+    }
+  },
+  {
+    $count: 'tagEnimAndId'
+  }
+]
+```
+
+#### Output:
+
+```
+[
+  {
+    "tagEnimAndId": 5
+  }
+]
+```
+
+### List all companies located in USA with their corresponding user count.
+
+```
+[
+  {
+    $match: {
+      "company.location.country": "USA",
+    },
+  },
+  {
+    $group: {
+      _id: "$company.title",
+      userCount: {
+        $sum: 1,
+      },
+    },
+  },
+]
+```
+
+#### Saample Output
+
+```
+[
+  {
+    "_id": "VOIPA",
+    "userCount": 1
+  },
+  {
+    "_id": "YURTURE",
+    "userCount": 2
+  }
+  ....
+]
+```
+
+> [!NOTE]
+>
+> -   $sum:
+>     -   It accepts number by which it will be adding if there is new entry found.
