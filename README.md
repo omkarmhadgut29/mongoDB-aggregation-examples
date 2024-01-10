@@ -434,7 +434,7 @@
 ]
 ```
 
-#### Saample Output
+#### Saample Output:
 
 ```
 [
